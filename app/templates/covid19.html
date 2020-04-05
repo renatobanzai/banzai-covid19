@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            font-family: "Open Sans";
+        }
+
+        h1 {
+            font-size:31px;
+        }
+
+        label {
+            width: 580px;
+            height:30px;
+            display:block;
+        }
+
+        input#txtCountries{
+            width:490px;
+            float:right;
+        }
+
+        input#txtDays{
+            width:50px;
+            float:right;
+            margin-right:440px
+        }
+
+        input#chkLog{
+            width:50px;
+            float:right;
+            margin-right:450px
+        }
+    </style>
+    <script language="JavaScript">
+        var d = new Date();
+        function btnOK()
+        {
+            d = new Date();
+            var days = document.getElementById("txtDays").value;
+            var countries = document.getElementById("txtCountries").value;
+            var chkLog = "False";
+            if (document.getElementById("chkLog").checked==true)
+                chkLog = "True";
+
+            document.getElementById("imgResult").src="/chart.png?c="+countries+"&d="+days+"&l="+chkLog+"&rand="+d.getSeconds()+d.getMilliseconds();
+        }
+    </script>
+    <meta charset="UTF-8">
+    <title>COVID-19</title>
+</head>
+<body>
+    <h1>COVID-19 (SARS-COV-2) COMPARATOR</h1>
+    <div id="divContent">
+        <div id="divFilter">
+            <label id="lblCountries" for="txtCountries">
+                Countries:<input type="text" id="txtCountries" value='Brazil;Italy;Spain;Sao Paulo;United Kingdom' />
+            </label>
+            <label id="lblDays" for="txtDays">
+                Days:<input type="text" id="txtDays" value="18"/>
+            </label>
+            <label id="lblLog" for="chkLog">
+                Log:<input type="checkbox" id="chkLog" value="True"/>
+            </label>
+            <input type="button" value="OK" name="btnCompare" onclick="btnOK()"/>
+        </div>
+        <div id="divResult">
+            <img id="imgResult">
+        </div>
+    </div>
+</body>
+</html>
