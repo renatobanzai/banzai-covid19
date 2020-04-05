@@ -33,5 +33,7 @@ docker run -p 5000:5000 -v path_dos_arquivos:/app_data renatobanzai/banzai-covid
 
 -Dados Brasil: [Unanimad](https://github.com/CSSEGISandData/COVID-19)
 
-**PS1** Estou com um note com teclado japones e desisti de colocar acentuacao.
-**PS2** Playstation 2
+***
+
+- PS1 Estou com um note com teclado japones e desisti de colocar acentuacao.
+- PS2 Playstation 2.
