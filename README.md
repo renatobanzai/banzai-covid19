@@ -16,6 +16,7 @@ A atualizacao dos dados **NAO EH AUTOMATICA**. Atualize-os no diretorio app_data
 - Configure o config.yaml com os locais de onde voce deixou os arquivos
 - Rode o arquivo __init__.py
 - No seu browser, entre em http://localhost:5000
+- Outra opcao eh rodar o arquivo ./app/banzai_test.py, deixei ele com uma chamada a um metodo.
 
 ## Docker
 O Dockerfile na raiz pode gerar uma imagem com o ambiente necessario, basta rodar o arquivo DockerBuild.sh.
