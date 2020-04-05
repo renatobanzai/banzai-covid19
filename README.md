@@ -32,3 +32,6 @@ docker run -p 5000:5000 -v path_dos_arquivos:/app_data renatobanzai/banzai-covid
 -Dados Globais: [Johns Hopkins](https://www.kaggle.com/unanimad/corona-virus-brazil)
 
 -Dados Brasil: [Unanimad](https://github.com/CSSEGISandData/COVID-19)
+
+**PS1** Estou com um note com teclado japones e desisti de colocar acentuacao.
+**PS2** Playstation 2
