@@ -1,5 +1,6 @@
 ## Objetivo
 Plotar informacoes sobre as mortes relacionadas a COVID-19 (SARS-COV-2) com fontes confiaveis de dados.
+Esta online nesse link por enquanto: http://banzai.eastus.cloudapp.azure.com/
 
 ## Estrutura de Diretorios
 Sugiro que deixem todos os arquivos de dados em um diretorio (../app_data), assim basta um parametro de volume para que o container os encontre. Os arquivos que utiliza-se sao:
