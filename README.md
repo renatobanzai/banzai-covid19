@@ -8,6 +8,7 @@ Sugiro que deixem todos os arquivos de dados em um diretorio (../app_data), assi
 - time_series_covid19_deaths_global.csv
 - time_series_covid19_cases_global.csv
 - brazil_covid19.csv
+- dynamic_config.yaml
 
 ## Atualizacao dos Dados
 A atualizacao dos dados **NAO EH AUTOMATICA**. Atualize-os no diretorio app_data, os arquivos que deixei la sao para que voce veja o aplicativo funcionando. O que vier com a melhor solucao do pipeline de dados, eu deixarei publico por aqui tambem =)

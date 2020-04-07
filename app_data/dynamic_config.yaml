@@ -1,9 +1,9 @@
 default:
-  #default days after the first death to plot
+  #default days after the first death to plot (number)
   days: 22
 
-  #default countries
+  #default countries eg: brazil;sao paulo;italy; spain;US; united kingdom
   countries: brazil;sao paulo;italy; spain;US; united kingdom
 
-  #default logarithmic plot
+  #default logarithmic plot ex: checked or empty
   is_log: checked
