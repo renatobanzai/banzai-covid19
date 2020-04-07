@@ -1,0 +1,16 @@
+sudo: required
+services:
+  - docker
+
+env: 
+  global:
+    - GIT_SHA=$(git rev-parse HEAD)
+
+language: generic
+after_success:
+  - docker build -t renatobanzai/banzai-covid19:latest -t renatobanzai/banzai-covid19:$GIT_SHA .
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push renatobanzai/banzai-covid19:latest
+  - docker push renatobanzai/banzai-covid19:$GIT_SHA
