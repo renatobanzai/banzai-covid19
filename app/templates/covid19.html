@@ -55,13 +55,13 @@
     <div id="divContent">
         <div id="divFilter">
             <label id="lblCountries" for="txtCountries">
-                Countries:<input type="text" id="txtCountries" value='Brazil;Italy;Spain;Sao Paulo;United Kingdom' />
+                Countries:<input type="text" id="txtCountries" value="{{default_countries}}" />
             </label>
             <label id="lblDays" for="txtDays">
-                Days:<input type="text" id="txtDays" value="20"/>
+                Days:<input type="text" id="txtDays" value="{{default_days}}"/>
             </label>
             <label id="lblLog" for="chkLog">
-                Log:<input type="checkbox" id="chkLog" value="True"/>
+                Log:<input type="checkbox" id="chkLog" value="True" checked="{{default_is_log}}"/>
             </label>
             <input type="button" value="OK" name="btnCompare" onclick="btnOK()"/>
         </div>

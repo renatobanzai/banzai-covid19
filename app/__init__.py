@@ -13,7 +13,19 @@ except Exception as e:
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("covid19.html")
+    try:
+        with open(config["files"]["dynamic_config"], "r") as dynamic_file:
+             dynamic_config = yaml.safe_load(dynamic_file)
+
+        default_days = dynamic_config["default"]["days"]
+        default_countries = dynamic_config["default"]["countries"]
+        default_is_log = dynamic_config["default"]["is_log"]
+    except Exception as e:
+        default_days = "25"
+        default_countries = "brazil;italy;spain"
+        default_is_log = "true"
+
+    return render_template("covid19.html", default_days=default_days, default_countries=default_countries, default_is_log=default_is_log)
 
 @app.route("/chart.png", methods=["GET", "POST"])
 def chart():

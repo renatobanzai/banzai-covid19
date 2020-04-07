@@ -10,3 +10,6 @@ files:
 
   #arquivo do repositorio do Kaggle https://www.kaggle.com/unanimad/corona-virus-brazil
   covid19_cases_brazil: ../app_data/brazil_covid19.csv
+
+  #arquivo com configuracoes dinamicas para interagir com o host
+  dynamic_config: ../app_data/dynamic_config.yaml
