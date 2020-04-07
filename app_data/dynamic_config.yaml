@@ -6,4 +6,4 @@ default:
   countries: brazil;sao paulo;italy; spain;US; united kingdom
 
   #default logarithmic plot
-  is_log: true
+  is_log: checked
