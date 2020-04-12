@@ -54,6 +54,14 @@
                 chkLog = "True";
 
             document.getElementById("imgResult").src="/chart.png?c="+countries+"&d="+days+"&l="+chkLog+"&rand="+d.getSeconds()+d.getMilliseconds();
+            // Sends the event to the Google Analytics property with
+            // tracking ID GA_MEASUREMENT_ID set by the config command in
+            // the global tracking snippet.
+            gtag('event', 'filter', {
+              'event_category': 'COVID19',
+              'event_action': 'Filter',
+              'event_label': countries+"&d="+days+"&l="+chkLog
+            });
         }
     </script>
     <meta charset="UTF-8">
