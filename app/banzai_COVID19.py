@@ -53,31 +53,53 @@ class BanzaiCOVID19():
         return global_deaths
 
 
-    def get_sp_cases(self):
-        brazil_cases = pd.read_csv(self.brazil_cases_path)
-        sp_cases = brazil_cases[brazil_cases["state"] == "São Paulo"]
-        sp_cases = sp_cases.groupby(["date"], as_index=False).max()
-        # transforming sp index
-        sp_cases = sp_cases.set_index("date")
-        sp_cases.index = pd.to_datetime(sp_cases.index)
-        # columns date, state, cases, deaths
-        sp_cases = sp_cases[["state", "cases", "deaths"]]
-        return sp_cases
+    def get_brazil_cases(self):
+        brazil_raw_cases = pd.read_csv(self.brazil_cases_path)
+        brazilian_states = brazil_raw_cases.state.unique()
+        brazil_cases = pd.DataFrame()
+        i = 0
+        for state in brazilian_states:
+            state_deaths = brazil_raw_cases[brazil_raw_cases.state == state]
+            # grouping by date if any state has more than one death information by day
+            state_deaths = state_deaths.groupby(["date"], as_index=False).max()
+            state_deaths = state_deaths.set_index("date")
+            state_deaths.index = pd.to_datetime(state_deaths.index)
+            state_deaths = state_deaths[["deaths"]]
+            state_deaths = state_deaths.rename(columns={"deaths": state.lower()})
+            if i == 0:
+                brazil_cases = state_deaths
+            else:
+                brazil_cases = brazil_cases.join(state_deaths)
+            i += 1
+        return brazil_cases
 
-    def get_sp_deaths(self):
-        #using the same file from brazilian cases
-        return self.get_sp_cases()
+    def get_brazil_deaths(self):
+        brazil_raw_deaths = pd.read_csv(self.brazil_cases_path)
+        brazilian_states = brazil_raw_deaths.state.unique()
+        brazil_deaths = pd.DataFrame()
+        i = 0
+        for state in brazilian_states:
+            state_deaths = brazil_raw_deaths[brazil_raw_deaths.state == state]
+            # grouping by date if any state has more than one death information by day
+            state_deaths = state_deaths.groupby(["date"], as_index=False).max()
+            state_deaths = state_deaths.set_index("date")
+            state_deaths.index = pd.to_datetime(state_deaths.index)
+            state_deaths = state_deaths[["deaths"]]
+            state_deaths = state_deaths.rename(columns={"deaths": state.lower()})
+            if i == 0:
+                brazil_deaths = state_deaths
+            else:
+                brazil_deaths = brazil_deaths.join(state_deaths)
+            i += 1
+        return brazil_deaths
 
-    def merge_global_sp_cases(self, sp_cases, global_cases):
-        result = global_cases.join(sp_cases[["cases"]])
-        result = result.rename(columns={"cases": "sao paulo"})
+    def merge_global_brazil_cases(self, sp_cases, global_cases):
+        result = global_cases.join(sp_cases)
         return result
 
-    def merge_global_sp_deaths(self, sp_deaths, global_deaths):
-        result = global_deaths.join(sp_deaths[["deaths"]])
-        result = result.rename(columns={"deaths": "sao paulo"})
+    def merge_global_brazil_deaths(self, sp_deaths, global_deaths):
+        result = global_deaths.join(sp_deaths)
         return result
-
 
     def get_timeless_comparison_cases(self, cases_count, cases):
         # creating a dataframe with all first date cases
@@ -156,22 +178,22 @@ class BanzaiCOVID19():
 
     def plot_cases(self, countries, start_cases, count_days):
         confirmed = self.get_global_cases()
-        sp_cases = self.get_sp_cases()
-        cases = self.merge_global_sp_cases(sp_cases, confirmed)
+        sp_cases = self.get_brazil_cases()
+        cases = self.merge_global_brazil_cases(sp_cases, confirmed)
         timeless_cases = self.get_timeless_comparison_cases(start_cases, cases)
         self.plot_comparison_cases(timeless_cases, countries, count_days)
 
     def plot_deaths(self, countries, start_deaths, count_days):
         deaths = self.get_global_deaths()
-        sp_deaths = self.get_sp_deaths()
-        deaths = self.merge_global_sp_deaths(sp_deaths, deaths)
+        sp_deaths = self.get_brazil_deaths()
+        deaths = self.merge_global_brazil_deaths(sp_deaths, deaths)
         timeless_cases = self.get_timeless_comparison_deaths(start_deaths, deaths)
         self.plot_comparison_deaths(timeless_cases, countries, count_days)
 
     def get_figure_plot_deaths(self, countries, start_deaths, count_days, log):
         deaths = self.get_global_deaths()
-        sp_deaths = self.get_sp_deaths()
-        deaths = self.merge_global_sp_deaths(sp_deaths, deaths)
+        sp_deaths = self.get_brazil_deaths()
+        deaths = self.merge_global_brazil_deaths(sp_deaths, deaths)
         timeless_cases = self.get_timeless_comparison_deaths(start_deaths, deaths)
         fig = Figure()
         ax = fig.add_subplot(1,1,1)
