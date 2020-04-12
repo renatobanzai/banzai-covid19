@@ -23,7 +23,7 @@ def home():
     except Exception as e:
         default_days = "25"
         default_countries = "brazil;italy;spain"
-        default_is_log = "true"
+        default_is_log = "checked"
 
     return render_template("covid19.html", default_days=default_days, default_countries=default_countries, default_is_log=default_is_log)
 
