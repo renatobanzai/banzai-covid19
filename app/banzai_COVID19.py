@@ -10,6 +10,8 @@ class BanzaiCOVID19():
         self.global_confirmed_cases_path = ""
         self.brazil_cases_path = ""
         self.brazil_deaths_path = ""
+        self.countries_population_path = ""
+        self.countries_lookup_path = ""
 
     #Get global data
     #datasource from
@@ -93,6 +95,23 @@ class BanzaiCOVID19():
             i += 1
         return brazil_deaths
 
+
+    def get_countries_population(self):
+        countries_population = pd.read_csv(self.countries_population_path)
+        countries_lookup = pd.read_csv(self.countries_lookup_path)
+
+
+        countries_lookup = countries_lookup[["Country_Code", "Country_Region"]]
+        countries_lookup = countries_lookup.drop_duplicates()
+        countries_lookup.index = countries_lookup.Country_Code
+
+        countries_population = countries_population[countries_population.Year==2016]
+        countries_population.index = countries_population.Country_Code
+        countries_merge = countries_population.join(countries_lookup, lsuffix='_left', rsuffix='_right')
+        result = countries_merge.groupby("Country_Region").sum()
+        result.index = result.index.str.lower()
+        return result
+
     def merge_global_brazil_cases(self, sp_cases, global_cases):
         result = global_cases.join(sp_cases)
         return result
@@ -155,6 +174,21 @@ class BanzaiCOVID19():
         df_timeless.columns = column_names
         return df_timeless
 
+    def consider_population(self, time_series, ratio):
+
+        result = pd.DataFrame(index=time_series.index)
+
+        countries_population = self.get_countries_population()
+        for place in time_series.columns:
+            try:
+                population = countries_population[countries_population.index==place].Value[0]
+                item = time_series[[place]].div((population/ratio))
+                result = pd.concat([result, item], axis=1)
+            except:
+                result = result
+
+        return result
+
 
     def plot_comparison_cases(self, cases, countries_array, max_days):
         plt.close('all')
@@ -195,6 +229,7 @@ class BanzaiCOVID19():
         sp_deaths = self.get_brazil_deaths()
         deaths = self.merge_global_brazil_deaths(sp_deaths, deaths)
         timeless_cases = self.get_timeless_comparison_deaths(start_deaths, deaths)
+        timeless_cases = self.consider_population(timeless_cases, 100000)
         fig = Figure()
         ax = fig.add_subplot(1,1,1)
         count_days = int(count_days)
@@ -226,7 +261,6 @@ class BanzaiCOVID19():
                     horizontalalignment='right',
                     color='black', fontsize=5)
             timeless_cases[countries][timeless_cases.index <= count_days].plot(ax=ax, xticks=xticks)
-
 
         output = io.BytesIO()
         FigureCanvas(fig).print_png(output)

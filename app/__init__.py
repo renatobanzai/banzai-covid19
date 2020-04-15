@@ -42,6 +42,8 @@ def chart():
         analysis.global_confirmed_cases_path = config["files"]["covid19_cases_global"]
         analysis.brazil_cases_path = config["files"]["covid19_cases_brazil"]
         analysis.brazil_deaths_path = config["files"]["covid19_cases_brazil"]
+        analysis.countries_population_path = config["files"]["countries_population"]
+        analysis.countries_lookup_path = config["files"]["countries_lookup"]
 
         countries = s_countries.split(";")
         countries = [string for string in countries if string != ""]
