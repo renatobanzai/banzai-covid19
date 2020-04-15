@@ -20,12 +20,14 @@ def home():
         default_days = dynamic_config["default"]["days"]
         default_countries = dynamic_config["default"]["countries"]
         default_is_log = dynamic_config["default"]["is_log"]
+        default_is_death_rate = dynamic_config["default"]["is_death_rate"]
     except Exception as e:
         default_days = "25"
         default_countries = "brazil;italy;spain"
         default_is_log = "checked"
+        default_is_death_rate = "checked"
 
-    return render_template("covid19.html", default_days=default_days, default_countries=default_countries, default_is_log=default_is_log)
+    return render_template("covid19.html", default_days=default_days, default_countries=default_countries, default_is_log=default_is_log, default_is_death_rate=default_is_death_rate)
 
 @app.route("/chart.png", methods=["GET", "POST"])
 def chart():
@@ -33,9 +35,13 @@ def chart():
         days = request.args.get("d")
         s_countries = request.args.get("c")
         s_logy = request.args.get("l")
+        s_death_rate = request.args.get("dr")
         log = False
+        death_rate = False
         if s_logy == "True":
             log = True
+        if s_death_rate =="True":
+            death_rate = True
 
         analysis = BanzaiCOVID19()
         analysis.global_confirmed_deaths_path = config["files"]["covid19_deaths_global"]
@@ -50,7 +56,7 @@ def chart():
 
         countries = [x.lower() for x in countries]
         countries = [x.strip() for x in countries]
-        img = analysis.get_figure_plot_deaths(countries, 1, days, log)
+        img = analysis.get_figure_plot_deaths(countries, 1, days, log, death_rate)
         response = Response(img.getvalue(), mimetype='image/png')
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
         response.headers["Expires"] = 0

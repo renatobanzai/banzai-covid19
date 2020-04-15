@@ -224,12 +224,17 @@ class BanzaiCOVID19():
         timeless_cases = self.get_timeless_comparison_deaths(start_deaths, deaths)
         self.plot_comparison_deaths(timeless_cases, countries, count_days)
 
-    def get_figure_plot_deaths(self, countries, start_deaths, count_days, log):
+    def get_figure_plot_deaths(self, countries, start_deaths, count_days, log, death_rate):
         deaths = self.get_global_deaths()
         sp_deaths = self.get_brazil_deaths()
         deaths = self.merge_global_brazil_deaths(sp_deaths, deaths)
         timeless_cases = self.get_timeless_comparison_deaths(start_deaths, deaths)
-        timeless_cases = self.consider_population(timeless_cases, 100000)
+        timeless_cases = timeless_cases[countries]
+        if death_rate:
+            y_title = "Deaths per 100 000 people"
+            timeless_cases = self.consider_population(timeless_cases, 100000)
+        else:
+            y_title = "Total Deaths"
         fig = Figure()
         ax = fig.add_subplot(1,1,1)
         count_days = int(count_days)
@@ -245,7 +250,7 @@ class BanzaiCOVID19():
         elif count_days < 100:
             xticks = range(0, end_xticks, 12)
 
-        ax.set_ylabel("total deaths")
+        ax.set_ylabel(y_title)
         ax.set_xlabel("days after 1st death")
         if log:
             ax.set_title("COVID-19 Total Deaths (logarithmic) ")
@@ -253,14 +258,14 @@ class BanzaiCOVID19():
                     verticalalignment='bottom',
                     horizontalalignment='right',
                     color='black', fontsize=5)
-            timeless_cases[countries][timeless_cases.index <= count_days].plot(ax=ax, logy=True, xticks=xticks)
+            timeless_cases[timeless_cases.index <= count_days].plot(ax=ax, logy=True, xticks=xticks)
         else:
             ax.set_title("COVID-19 Total Deaths (linear)")
             ax.text((count_days - 2), 0.01, 'by Banzai',
                     verticalalignment='bottom',
                     horizontalalignment='right',
                     color='black', fontsize=5)
-            timeless_cases[countries][timeless_cases.index <= count_days].plot(ax=ax, xticks=xticks)
+            timeless_cases[timeless_cases.index <= count_days].plot(ax=ax, xticks=xticks)
 
         output = io.BytesIO()
         FigureCanvas(fig).print_png(output)

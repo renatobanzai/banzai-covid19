@@ -3574,11 +3574,30 @@ UID,iso2,Country_Code,code3,FIPS,Admin2,Province_State,Country_Region,Lat,Long_,
 84056043,US,USA,840,56043,Washakie,Wyoming,US,43.90451606,-107.680187,"Washakie, Wyoming, US",7805
 84056045,US,USA,840,56045,Weston,Wyoming,US,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
 84056045,US,USA,840,56045,Weston,Wyoming,US,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
-84056045,US,DF,840,56045,Weston,Wyoming,Distrito Federal,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
-84056045,US,GO,840,56045,Weston,Wyoming,Goiás,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
-84056045,US,MT,840,56045,Weston,Wyoming,Mato Grosso,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
-84056045,US,MS,840,56045,Weston,Wyoming,Mato Grosso do Sul,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
-84056045,US,AL,840,56045,Weston,Wyoming,Alagoas,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
-84056045,US,BA,840,56045,Weston,Wyoming,Bahia,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
-84056045,US,CE,840,56045,Weston,Wyoming,Ceará,43.83961191,-104.5674881,"Weston, Wyoming, US",6927
-84056045,US,SP,840,56045,Weston,Wyoming,São Paulo,43.83961191,-104.5674881,"Weston, Wyoming, US",692
+1,BR,SP,1,1,xx,xx,São Paulo,xx,xx,xx,1
+1,BR,MG,1,1,xx,xx,Minas Gerais,xx,xx,xx,1
+1,BR,RJ,1,1,xx,xx,Rio de Janeiro,xx,xx,xx,1
+1,BR,BA,1,1,xx,xx,Bahia,xx,xx,xx,1
+1,BR,PR,1,1,xx,xx,Paraná,xx,xx,xx,1
+1,BR,RS,1,1,xx,xx,Rio Grande do Sul,xx,xx,xx,1
+1,BR,PE,1,1,xx,xx,Pernambuco,xx,xx,xx,1
+1,BR,CE,1,1,xx,xx,Ceará,xx,xx,xx,1
+1,BR,PA,1,1,xx,xx,Pará,xx,xx,xx,1
+1,BR,SC,1,1,xx,xx,Santa Catarina,xx,xx,xx,1
+1,BR,MA,1,1,xx,xx,Maranhão,xx,xx,xx,1
+1,BR,GO,1,1,xx,xx,Goiás,xx,xx,xx,1
+1,BR,AM,1,1,xx,xx,Amazonas,xx,xx,xx,1
+1,BR,ES,1,1,xx,xx,Espírito Santo,xx,xx,xx,1
+1,BR,PB,1,1,xx,xx,Paraíba,xx,xx,xx,1
+1,BR,RN,1,1,xx,xx,Rio Grande do Norte,xx,xx,xx,1
+1,BR,MG,1,1,xx,xx,Mato Grosso,xx,xx,xx,1
+1,BR,AL,1,1,xx,xx,Alagoas,xx,xx,xx,1
+1,BR,PI,1,1,xx,xx,Piauí,xx,xx,xx,1
+1,BR,DF,1,1,xx,xx,Distrito Federal,xx,xx,xx,1
+1,BR,MS,1,1,xx,xx,Mato Grosso do Sul,xx,xx,xx,1
+1,BR,SE,1,1,xx,xx,Sergipe,xx,xx,xx,1
+1,BR,RO,1,1,xx,xx,Rondônia,xx,xx,xx,1
+1,BR,TO,1,1,xx,xx,Tocantins,xx,xx,xx,1
+1,BR,AC,1,1,xx,xx,Acre,xx,xx,xx,1
+1,BR,AP,1,1,xx,xx,Amapá,xx,xx,xx,1
+1,BR,RR,1,1,xx,xx,Roraima,xx,xx,xx,1

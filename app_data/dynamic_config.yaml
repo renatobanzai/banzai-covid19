@@ -7,3 +7,6 @@ default:
 
   #default logarithmic plot ex: checked or empty
   is_log: checked
+
+  #default logarithmic plot ex: checked or empty
+  is_death_rate: checked

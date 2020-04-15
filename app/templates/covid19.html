@@ -53,7 +53,12 @@
             if (document.getElementById("chkLog").checked==true)
                 chkLog = "True";
 
-            document.getElementById("imgResult").src="/chart.png?c="+countries+"&d="+days+"&l="+chkLog+"&rand="+d.getSeconds()+d.getMilliseconds();
+            var chkDeathRate = "False";
+            if (document.getElementById("chkDeathRate").checked==true)
+                chkDeathRate = "True";
+
+
+            document.getElementById("imgResult").src="/chart.png?c="+countries+"&d="+days+"&l="+chkLog+"&dr="+chkDeathRate+"&rand="+d.getSeconds()+d.getMilliseconds();
             // Sends the event to the Google Analytics property with
             // tracking ID GA_MEASUREMENT_ID set by the config command in
             // the global tracking snippet.
@@ -79,6 +84,9 @@
             </label>
             <label id="lblLog" for="chkLog">
                 Log:<input type="checkbox" id="chkLog" value="True" {{default_is_log}}/>
+            </label>
+            <label id="lblDeathRate" for="chkDeathRate">
+                Death Rate (per 100 000 people):<input type="checkbox" id="chkDeathRate" value="True" {{default_is_death_rate}}/>
             </label>
             <input type="button" value="OK" name="btnCompare" onclick="btnOK()"/>
         </div>
