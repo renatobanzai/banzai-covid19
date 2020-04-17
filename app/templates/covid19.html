@@ -1,98 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23693919-2"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-      gtag('config', 'UA-23693919-2');
+        gtag('config', 'UA-23693919-2');
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <style>
-        body{
-            font-family: "Open Sans";
+        input[type='checkbox'] {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 5px;
+            border: 2px solid #555;
         }
 
-        h1 {
-            font-size:31px;
+        input[type='checkbox']:checked {
+            background: #555;
         }
 
-        label {
-            width: 580px;
-            height:30px;
-            display:block;
-        }
-
-        input#txtCountries{
-            width:490px;
-            float:right;
-        }
-
-        input#txtDays{
-            width:50px;
-            float:right;
-            margin-right:440px
-        }
-
-        input#chkLog{
-            width:50px;
-            float:right;
-            margin-right:450px
+        .has-image-centered {
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
     <script language="JavaScript">
         var d = new Date();
-        function btnOK()
-        {
+        function btnOK() {
             d = new Date();
             var days = document.getElementById("txtDays").value;
             var countries = document.getElementById("txtCountries").value;
             var chkLog = "False";
-            if (document.getElementById("chkLog").checked==true)
+            if (document.getElementById("chkLog").checked == true)
                 chkLog = "True";
 
             var chkDeathRate = "False";
-            if (document.getElementById("chkDeathRate").checked==true)
+            if (document.getElementById("chkDeathRate").checked == true)
                 chkDeathRate = "True";
 
 
-            document.getElementById("imgResult").src="/chart.png?c="+countries+"&d="+days+"&l="+chkLog+"&dr="+chkDeathRate+"&rand="+d.getSeconds()+d.getMilliseconds();
+            document.getElementById("imgResult").src = "/chart.png?c=" + countries + "&d=" + days + "&l=" + chkLog + "&dr=" + chkDeathRate + "&rand=" + d.getSeconds() + d.getMilliseconds();
             // Sends the event to the Google Analytics property with
             // tracking ID GA_MEASUREMENT_ID set by the config command in
             // the global tracking snippet.
             gtag('event', 'filter', {
-              'event_category': 'COVID19',
-              'event_action': 'Filter',
-              'event_label': countries+"&d="+days+"&l="+chkLog
+                'event_category': 'COVID19',
+                'event_action': 'Filter',
+                'event_label': countries + "&d=" + days + "&l=" + chkLog
             });
         }
     </script>
     <meta charset="UTF-8">
     <title>COVID-19</title>
 </head>
+
 <body>
-    <h1>COVID-19 (SARS-COV-2) COMPARATOR</h1>
-    <div id="divContent">
-        <div id="divFilter">
-            <label id="lblCountries" for="txtCountries">
-                Countries:<input type="text" id="txtCountries" value="{{default_countries}}" />
-            </label>
-            <label id="lblDays" for="txtDays">
-                Days:<input type="text" id="txtDays" value="{{default_days}}"/>
-            </label>
-            <label id="lblLog" for="chkLog">
-                Log:<input type="checkbox" id="chkLog" value="True" {{default_is_log}}/>
-            </label>
-            <label id="lblDeathRate" for="chkDeathRate">
-                Death Rate (per 100 000 people):<input type="checkbox" id="chkDeathRate" value="True" {{default_is_death_rate}}/>
-            </label>
-            <input type="button" value="OK" name="btnCompare" onclick="btnOK()"/>
+    <section class="hero is-warning is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    COVID-19 (SARS-COV-2) COMPARATOR
+                </h1>
+                <h2 class="subtitle">
+                    By Banzai
+                </h2>
+            </div>
         </div>
-        <div id="divResult">
-            <img id="imgResult">
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div id="divContent" class="columns">
+
+                <div class="field column has-text-centered" id="divFilter">
+                    <label class="label" id="lblCountries" for="txtCountries">Countries</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" id="txtCountries" value="{{default_countries}}" />
+                        <span class="icon is-left"><i class="fas fa-globe"></i></span>
+                    </div>
+                </div>
+
+                <div class="field column has-text-centered" id="divFilter">
+                    <label class="label" id="lblDays" for="txtDays">Days</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="number" id="txtDays" value="{{default_days}}" />
+                        <span class="icon is-left"><i class="fas fa-calendar-alt"></i></span>
+                    </div>
+                </div>
+
+                <div class="field column has-text-centered" id="divFilter">
+                    <label class="label" id="lblLog" for="chkLog">Logaritmic</label>
+                    <div class="control has-text-centered">
+                        <input type="checkbox" id="chkLog" value="True" {{default_is_log}} />
+                    </div>
+                </div>
+
+                <div class="field column has-text-centered" id="divFilter">
+                    <label class="label" id="lblDeathRate" for="chkDeathRate">Death Rate (per 100K people)</label>
+                    <div class="control has-text-centered">
+                        <input type="checkbox" id="chkDeathRate" value="True" {{default_is_death_rate}} />
+                    </div>
+                </div>
+
+            </div>
+
+            <input class="button is-large is-fullwidth is-dark" type="button" value="OK" name="btnCompare" onclick="btnOK()" />
         </div>
-    </div>
+    </section>
+
+        <div class="container has-text-centered">
+            <div id="divResult">
+                <img id="imgResult">
+            </div>
+        </div>
+
 </body>
+
 </html>
