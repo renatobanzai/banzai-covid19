@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        input[type='checkbox'] {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 2px solid #555;
+        }
+
+        input[type='checkbox']:checked {
+        }
+
+        .has-image-centered {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #divResult{
+            height: 400px;
+
+        }
+    </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script language="JavaScript">
+        var NaN = null
+        google.charts.load('current', {packages: ['corechart', 'line']});
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = eval("(" + this.responseText + ")");
+                myFunction(myArr);
+            }
+        };
+
+        function myFunction(arr)
+        {
+            var data = new google.visualization.DataTable(arr);
+            var chart = new google.visualization.LineChart(document.getElementById('divResult'));
+
+            var options = {
+                            hAxis: {
+                              title: 'Days afters 1st Death'
+                            },
+                            vAxis: {
+                              title: 'Deaths per 100 000 people',
+                              logScale:document.getElementById("chkLog").checked
+                            },
+                            backgroundColor: '#f1f8e9',
+                            legend:{
+                            position:'right',
+                            textStyle: {color: 'blue', fontSize: 8}
+                            }
+
+                          };
+            chart.draw(data, options);
+        }
+
+        var d = new Date();
+        function btnOKJSON()
+        {
+            d = new Date();
+            var days = document.getElementById("txtDays").value;
+            var countries = document.getElementById("txtCountries").value;
+            var chkLog = "False";
+            if (document.getElementById("chkLog").checked == true)
+                chkLog = "True";
+
+            var chkDeathRate = "False";
+            if (document.getElementById("chkDeathRate").checked == true)
+                chkDeathRate = "True";
+
+            url = "/api?c=" + countries + "&d=" + days + "&l=" + chkLog + "&dr=" + chkDeathRate + "&rand=" + d.getSeconds() + d.getMilliseconds();
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+        }
+
+    </script>
+    <meta charset="UTF-8">
+    <title>COVID-19</title>
+</head>
+
+<body>
+    <section class="hero is-warning is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    COVID-19 (SARS-COV-2) COMPARATOR
+                </h1>
+                <h2 class="subtitle">
+                    By Banzai
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div id="divContent">
+
+                <div class="field" id="divFilter">
+                    <label class="label" id="lblCountries" for="txtCountries">Countries</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" id="txtCountries" value="{{default_countries}}" />
+                        <span class="icon is-left"><i class="fas fa-globe"></i></span>
+                    </div>
+                </div>
+
+                <div class="field" id="divFilter">
+                    <label class="label" id="lblDays" for="txtDays">Days</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="number" id="txtDays" value="{{default_days}}" />
+                        <span class="icon is-left"><i class="fas fa-calendar-alt"></i></span>
+                    </div>
+                </div>
+
+                <div class="field" id="divFilter">
+                    <label class="checkbox" id="lblLog" for="chkLog">Logarithmic</label>
+                    <div class="control">
+                        <input type="checkbox" id="chkLog" value="True" {{default_is_log}} />
+                    </div>
+                </div>
+                <div class="field" id="divFilter">
+                    <label class="checkbox" id="lblDeathRate" for="chkDeathRate">Death Rate (per 100K people)</label>
+                    <div class="control">
+                        <input type="checkbox" id="chkDeathRate" value="True" {{default_is_death_rate}} />
+                    </div>
+                </div>
+            <input class="button is-large is-fullwidth is-dark" type="button" value="OK" name="btnCompareJSON" onclick="btnOKJSON()" />
+        </div>
+    </section>
+
+        <div class="container has-text-centered">
+            <div id="divResult">
+            </div>
+        </div>
+</body>
+
+</html>
