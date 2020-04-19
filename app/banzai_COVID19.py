@@ -155,7 +155,7 @@ class BanzaiCOVID19():
             # print(label,first_case_date)
             df_first_cases = df_first_cases.append(
                 {"country": label,
-                 "event_date": deaths[deaths[label] > deaths_count].index.min()},
+                 "event_date": deaths[deaths[label] >= deaths_count].index.min()},
                 ignore_index=True
             )
         df_timeless = pd.DataFrame(index=range(0, deaths.shape[0]))

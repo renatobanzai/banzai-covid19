@@ -5,6 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23693919-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-23693919-2');
+    </script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/dist/css/bulma-extensions.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/dist/js/bulma-extensions.min.js"></script>
@@ -28,6 +37,7 @@
             var chart = new google.visualization.LineChart(document.getElementById('divResult'));
 
             var options = {
+                            title: "Comparison Between Countries",
                             hAxis: {
                               title: 'Days afters 1st Death'
                             },
@@ -35,14 +45,17 @@
                               title: 'Deaths per 100 000 people',
                               logScale:document.getElementById("chkLog").checked
                             },
-                            backgroundColor: '#f1f8e9',
                             legend:{
                             position:'right',
                             textStyle: {color: 'blue', fontSize: 8}
-                            }
-
+                            },
+                            animation:{
+                                startup: true,
+                                duration: 1000,
+                                easing: 'out',
+                              }
                           };
-            chart.draw(data, options);
+            chart.draw(data, google.charts.Line.convertOptions(options));
         }
 
         var d = new Date();
@@ -62,6 +75,15 @@
             url = "/api?c=" + countries + "&d=" + days + "&l=" + chkLog + "&dr=" + chkDeathRate + "&rand=" + d.getSeconds() + d.getMilliseconds();
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
+
+            // Sends the event to the Google Analytics property with
+            // tracking ID GA_MEASUREMENT_ID set by the config command in
+            // the global tracking snippet.
+            gtag('event', 'filter', {
+              'event_category': 'COVID19',
+              'event_action': 'Filter',
+              'event_label': countries+"&d="+days+"&l="+chkLog
+            });
         }
 
     </script>
@@ -122,13 +144,12 @@
 
             </div>
 
-            <input class="button is-large is-fullwidth is-dark" type="button" value="OK" name="btnCompare" onclick="btnOK()" />
+            <input class="button is-large is-fullwidth is-dark" type="button" value="OK" name="btnCompare" onclick="btnOKJSON()" />
         </div>
     </section>
 
         <div class="container has-text-centered">
-            <div id="divResult">
-                <img id="imgResult">
+            <div id="divResult" style="height:450px;">
             </div>
         </div>
 </body>
