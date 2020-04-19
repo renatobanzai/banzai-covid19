@@ -48,8 +48,6 @@ def ux():
 
     return render_template("covid19UX.html", default_days=default_days, default_countries=default_countries, default_is_log=default_is_log, default_is_death_rate=default_is_death_rate)
 
-
-
 @app.route("/chart.png", methods=["GET", "POST"])
 def chart():
     try:
