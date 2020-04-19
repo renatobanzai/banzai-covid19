@@ -224,17 +224,24 @@ class BanzaiCOVID19():
         timeless_cases = self.get_timeless_comparison_deaths(start_deaths, deaths)
         self.plot_comparison_deaths(timeless_cases, countries, count_days)
 
-    def get_figure_plot_deaths(self, countries, start_deaths, count_days, log, death_rate):
+    def get_filtered_dataframe(self, countries, start_deaths, count_days, death_rate):
         deaths = self.get_global_deaths()
         sp_deaths = self.get_brazil_deaths()
         deaths = self.merge_global_brazil_deaths(sp_deaths, deaths)
-        timeless_cases = self.get_timeless_comparison_deaths(start_deaths, deaths)
-        timeless_cases = timeless_cases[countries]
+        timeless_deaths = self.get_timeless_comparison_deaths(start_deaths, deaths)
+        timeless_deaths = timeless_deaths[countries]
+        timeless_deaths = timeless_deaths[timeless_deaths.index <= int(count_days)]
+        if death_rate:
+            timeless_deaths = self.consider_population(timeless_deaths, 100000)
+        return timeless_deaths
+
+    def get_figure_plot_deaths(self, countries, start_deaths, count_days, log, death_rate):
+        timeless_cases = self.get_filtered_dataframe(countries, start_deaths, count_days, death_rate)
         if death_rate:
             y_title = "Deaths per 100 000 people"
-            timeless_cases = self.consider_population(timeless_cases, 100000)
         else:
             y_title = "Total Deaths"
+
         fig = Figure()
         ax = fig.add_subplot(1,1,1)
         count_days = int(count_days)
@@ -258,15 +265,49 @@ class BanzaiCOVID19():
                     verticalalignment='bottom',
                     horizontalalignment='right',
                     color='black', fontsize=5)
-            timeless_cases[timeless_cases.index <= count_days].plot(ax=ax, logy=True, xticks=xticks)
+            timeless_cases.plot(ax=ax, logy=True, xticks=xticks)
         else:
             ax.set_title("COVID-19 Total Deaths (linear)")
             ax.text((count_days - 2), 0.01, 'by Banzai',
                     verticalalignment='bottom',
                     horizontalalignment='right',
                     color='black', fontsize=5)
-            timeless_cases[timeless_cases.index <= count_days].plot(ax=ax, xticks=xticks)
+            timeless_cases.plot(ax=ax, xticks=xticks)
 
         output = io.BytesIO()
         FigureCanvas(fig).print_png(output)
         return output
+
+    def get_json_deaths(self, countries, start_deaths, count_days, log, death_rate):
+        timeless_cases = self.get_filtered_dataframe(countries, start_deaths, count_days, death_rate)
+        timeless_cases.reset_index(level=0, inplace=True)
+        for label in timeless_cases.columns:
+            timeless_cases[label] = pd.to_numeric(timeless_cases[label])
+        return timeless_cases.to_json(orient="split")
+
+    def get_json_gviz_deaths(self, countries, start_deaths, count_days, log, death_rate):
+        timeless_cases = self.get_filtered_dataframe(countries, start_deaths, count_days, death_rate)
+        timeless_cases.reset_index(level=0, inplace=True)
+        timeless_cases = timeless_cases.rename(columns={"index":"days"})
+        timeless_cases = timeless_cases.fillna("null")
+        #gviz definition as dictionary
+        table_columns = []
+        table_rows = []
+
+
+        for label in timeless_cases.columns:
+            table_columns.append({"id": label,"label":label,"type":"number"})
+
+
+        for index, row in timeless_cases.iterrows():
+            row_cels = []
+            for item in row:
+                row_cels.append({"v":item})
+            c = {"c": row_cels}
+            table_rows.append(c)
+
+        result = {
+            "cols": table_columns,
+            "rows": table_rows
+        }
+        return result
