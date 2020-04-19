@@ -6,28 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/dist/css/bulma-extensions.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/dist/js/bulma-extensions.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <style>
-        input[type='checkbox'] {
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
-            border: 2px solid #555;
-        }
-
-        input[type='checkbox']:checked {
-        }
-
-        .has-image-centered {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        #divResult{
-            height: 400px;
-
-        }
-    </style>
+    <style></style>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script language="JavaScript">
         var NaN = null
@@ -104,9 +86,9 @@
     <section class="section">
         <div class="container">
 
-            <div id="divContent">
+            <div id="divContent" class="columns">
 
-                <div class="field" id="divFilter">
+                <div class="field column has-text-centered has-text-left-mobile">
                     <label class="label" id="lblCountries" for="txtCountries">Countries</label>
                     <div class="control has-icons-left">
                         <input class="input" type="text" id="txtCountries" value="{{default_countries}}" />
@@ -114,7 +96,7 @@
                     </div>
                 </div>
 
-                <div class="field" id="divFilter">
+                <div class="field column has-text-centered has-text-left-mobile">
                     <label class="label" id="lblDays" for="txtDays">Days</label>
                     <div class="control has-icons-left">
                         <input class="input" type="number" id="txtDays" value="{{default_days}}" />
@@ -122,24 +104,31 @@
                     </div>
                 </div>
 
-                <div class="field" id="divFilter">
-                    <label class="checkbox" id="lblLog" for="chkLog">Logarithmic</label>
-                    <div class="control">
-                        <input type="checkbox" id="chkLog" value="True" {{default_is_log}} />
+                <div class="field column has-text-centered has-text-left-mobile">
+                    <label class="label" id="lblLog" for="chkLog">Logaritmic</label>
+                    <div class="field">
+                        <input class="is-checkradio is-large" type="checkbox" id="chkLog" value="True" {{default_is_log}} />
+                        <label for="chkLog" style="margin-right: 0;padding-right: 0;margin-left: 1rem"></label>
                     </div>
                 </div>
-                <div class="field" id="divFilter">
-                    <label class="checkbox" id="lblDeathRate" for="chkDeathRate">Death Rate (per 100K people)</label>
-                    <div class="control">
-                        <input type="checkbox" id="chkDeathRate" value="True" {{default_is_death_rate}} />
+
+                <div class="field column has-text-centered has-text-left-mobile">
+                    <label class="label" id="lblDeathRate" for="chkDeathRate">Death Rate (per 100K people)</label>
+                    <div class="field">
+                        <input class="is-checkradio is-large" type="checkbox" id="chkDeathRate" value="True" {{default_is_death_rate}} />
+                        <label for="chkDeathRate" style="margin-right: 0;padding-right: 0;margin-left: 1rem"></label>
                     </div>
                 </div>
-            <input class="button is-large is-fullwidth is-dark" type="button" value="OK" name="btnCompareJSON" onclick="btnOKJSON()" />
+
+            </div>
+
+            <input class="button is-large is-fullwidth is-dark" type="button" value="OK" name="btnCompare" onclick="btnOK()" />
         </div>
     </section>
 
         <div class="container has-text-centered">
             <div id="divResult">
+                <img id="imgResult">
             </div>
         </div>
 </body>
